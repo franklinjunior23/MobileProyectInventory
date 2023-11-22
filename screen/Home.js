@@ -1,15 +1,18 @@
+import { View, StyleSheet, Text } from "react-native";
+import Header from "./components/Header";
 
-import {View, StyleSheet,Text} from 'react-native';
+const Home = ({navigation}) => {
+  return (
+    <View style={styles.container}>
+      <Header navigation={navigation}/>
+    </View>
+  );
+};
 
-
-const Home = () => {
-    return (
-        <View>
-           <Text>Bienvenido al Dashhboard</Text> 
-        </View>
-    );
-}
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+   
+  },
+});
 
 export default Home;

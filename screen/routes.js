@@ -13,6 +13,7 @@ const Stack = createNativeStackNavigator();
     );
  }
  
+ 
  const styles = StyleSheet.create({})
  
  export default Routes;
