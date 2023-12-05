@@ -8,6 +8,7 @@ const Stack = createNativeStackNavigator();
         <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Details" component={HomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
