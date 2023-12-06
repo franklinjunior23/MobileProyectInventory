@@ -1,10 +1,51 @@
-
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
+import { useState } from "react";
+import axiosInstance from "./config/AxiosInstance";
+import DataUserAuth from "./state/AuthUser";
+import axios from "axios";
 
 export default function LoginSign({ navigation }) {
-  function handleSubmiting(){
-    navigation.navigate('Home')
-  }
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { setTokenAuth, setDataUser } = DataUserAuth();
+
+
+  const handleSubmiting = async () => {
+    try {
+      
+      const response = await axiosInstance.post("auth/login", {
+        usuario: username,
+        contraseña: password,
+      });
+      const data = response.data;
+
+      // Verificar si el inicio de sesión fue exitoso
+      if (data.loged === true) {
+        // Guardar el token y los detalles del usuario en algún lugar, por ejemplo, AsyncStorage
+        // Aquí puedes manejar el token y el usuario según tus necesidades
+        // ...
+        setTokenAuth(data.token_user);
+        setDataUser(data.user);
+        // Navegar a la pantalla Home
+        navigation.navigate("Home");
+      } else {
+        // Mostrar un mensaje de error si el inicio de sesión falló
+        Alert.alert("Error", "Inicio de sesión fallido");
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+      Alert.alert("Error", "Ocurrió un error en la solicitud");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.Text}>Intiscorp</Text>
@@ -16,27 +57,22 @@ export default function LoginSign({ navigation }) {
           }}
         />
       </View>
-      <View style={styles.ContainerInputs}>
-        <View style={styles.ContainerInput}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Ingrese su usuario"
-          />
-        </View>
-        <View style={styles.ContainerInput}>
-          <TextInput
-            style={styles.TextInput}
-            
-            placeholder="Ingrese su contraseña"
-          />
-          
-        </View>
-      </View>
+      <TextInput
+        style={styles.TextInput}
+        placeholder="Ingrese su usuario"
+        value={username}
+        onChangeText={(text) => setUsername(text)}
+      />
+      <TextInput
+        style={styles.TextInput2}
+        placeholder="Ingrese su contraseña"
+        secureTextEntry={true}
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+      />
       <TouchableOpacity style={styles.ButtonSubmit} onPress={handleSubmiting}>
-      <Text style={styles.buttonText}>Iniciar Sesion</Text>
-        </TouchableOpacity> 
-
-    
+        <Text style={styles.buttonText}>Iniciar Sesión</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -63,7 +99,7 @@ const styles = StyleSheet.create({
   },
   ContainerInputs: {
     width: "100%",
-   
+
     display: "flex",
     flexDirection: "column",
     gap: 20,
@@ -76,19 +112,33 @@ const styles = StyleSheet.create({
     color: "white",
     borderRadius: 10,
   },
-  ButtonSubmit:{
+  TextInput2: {
+    height: 50,
+    backgroundColor: "#919191",
+    width: "100%",
+    paddingHorizontal: 20,
+    color: "white",
+    borderRadius: 10,
+    marginTop: 10,
+  },
+
+  ButtonSubmit: {
     width: "100%",
     backgroundColor: "black",
-    height:45,
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center",
-    borderRadius:10,
-    marginTop:40,
+    height: 45,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    marginTop: 40,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
+
+
+
+
