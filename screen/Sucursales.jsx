@@ -17,12 +17,12 @@ const Sucursales = ({ route ,navigation}) => {
         const response = await axiosInstance.get((
           `sucursales/${nombre}`
         ))
-       console.log(response)
+  
           
         // Actualizar el estado con los datos de la petición
         setSucursalesData(response.data);
       } catch (error) {
-        console.error("Error al obtener datos de sucursales:", error);
+       
       } finally {
         // Marcar la carga como completa, ya sea exitosa o fallida
         setLoading(false);

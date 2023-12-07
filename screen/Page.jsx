@@ -13,7 +13,7 @@ function Page({ scrollEnabled = true, children }) {
           backgroundColor: "#292929",
         }}
       >
-        <Header/>
+        <Header />
         {children}
       </ScrollView>
     );
@@ -23,7 +23,7 @@ function Page({ scrollEnabled = true, children }) {
     <View
       style={{
         paddingHorizontal: 20,
-        position:'relative',
+        position: "relative",
         height: "100%",
         backgroundColor: "#292929",
         flex: 1,

@@ -4,18 +4,19 @@ import LoginSign from "./screen/LoginSign";
 import Home from "./screen/Home";
 import Sucursales from "./screen/Sucursales";
 import Category from "./screen/Category";
+import ItemDetails from "./screen/ItemDetails";
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer initialRouteName="Home">
+    <NavigationContainer initialRouteName="Login">
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Login"
           component={LoginSign}
           options={{ headerShown: false }}
-        /> */}
+        />
 
         <Stack.Screen
           name="Home"
@@ -36,6 +37,17 @@ function App() {
         <Stack.Screen
           name="Category"
           component={Category}
+          options={({ route }) => ({
+            title: route.params.nombre,
+            headerShown: true,
+            headerStyle: { backgroundColor: "#292929" },
+            headerTintColor: "#fff",
+            headerTitleStyle: { fontWeight: "bold" },
+          })}
+        />
+        <Stack.Screen
+          name="ItemDetails"
+          component={ItemDetails}
           options={({ route }) => ({
             title: route.params.nombre,
             headerShown: true,

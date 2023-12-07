@@ -10,7 +10,7 @@ import {
 import Page from "./Page";
 import axiosInstance from "./config/AxiosInstance";
 
-const Category = ({ route }) => {
+const Category = ({ route, navigation }) => {
   const [DataDispositivos, setDataDispositivos] = useState(null);
   const [DataUser, setDataUser] = useState(null);
   const { nombre, id, NombreEmpresa } = route.params;
@@ -19,7 +19,11 @@ const Category = ({ route }) => {
     <Page scrollEnabled={true}>
       <Text>Category</Text>
       <Text>{NombreEmpresa}</Text>
-      <AccordionExample SucursalName={nombre} nombreEmpresa={NombreEmpresa} />
+      <AccordionExample
+        navigation={navigation}
+        SucursalName={nombre}
+        nombreEmpresa={NombreEmpresa}
+      />
     </Page>
   );
 };
@@ -28,7 +32,11 @@ const styles = StyleSheet.create({});
 
 export default Category;
 
-const AccordionItem = ({ title, data, expanded, onPress }) => {
+const AccordionItem = ({ title, data, expanded, onPress, navigation }) => {
+  const ondanlenavigate = (id, type, nombre) => {
+    if(type ==='Dispositivos')return navigation.navigate("ItemDetails", { id, type:'Dispositivos', nombre });
+    navigation.navigate("ItemDetails", { id, type:'Users', nombre });
+  };
   return (
     <ScrollView
       style={{
@@ -49,6 +57,7 @@ const AccordionItem = ({ title, data, expanded, onPress }) => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
+              onPress={() => ondanlenavigate(item.id, title, item?.nombre)}
               style={{
                 backgroundColor: "black",
                 marginVertical: 5,
@@ -93,7 +102,7 @@ function EstatusDevice(estado) {
   }
 }
 
-const AccordionExample = ({ nombreEmpresa, SucursalName }) => {
+const AccordionExample = ({ nombreEmpresa, SucursalName, navigation }) => {
   const [devices, setDevices] = useState([]);
   const [users, setUsers] = useState([]);
   const [expandedSection, setExpandedSection] = useState(null);
@@ -129,10 +138,12 @@ const AccordionExample = ({ nombreEmpresa, SucursalName }) => {
         data={devices}
         expanded={expandedSection === "devices"}
         onPress={() => toggleSection("devices")}
+        navigation={navigation}
       />
       <AccordionItem
         title="Usuarios"
         data={users}
+        navigation={navigation}
         expanded={expandedSection === "users"}
         onPress={() => toggleSection("users")}
       />
